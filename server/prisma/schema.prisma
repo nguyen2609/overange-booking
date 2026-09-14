@@ -1,0 +1,42 @@
+generator client {
+  // Generate a ready-to-use JavaScript client for this JavaScript project.
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  bookings     Booking[]
+}
+
+model Slot {
+  id        Int       @id @default(autoincrement())
+  date      String
+  startTime String
+  endTime   String
+  bookings  Booking[]
+
+  @@unique([date, startTime])
+  @@index([date])
+}
+
+model Booking {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  slotId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  slot      Slot     @relation(fields: [slotId], references: [id], onDelete: Restrict)
+
+  // A user can book many slots per day, but each user/slot pair is unique.
+  @@unique([userId, slotId])
+  @@index([slotId])
+}

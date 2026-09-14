@@ -1,0 +1,155 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #e8e6e1;
+  background: #080808;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --panel: #111111;
+  --panel-raised: #171717;
+  --text: #e8e6e1;
+  --muted: #a29f99;
+  --border: #302f2c;
+  --accent: #9b3028;
+  --accent-hover: #a63a32;
+  --focus: #d2857c;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+
+/* A faint, static map/grid texture. Opaque panels keep the content readable. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-radial-gradient(ellipse at 0% 20%, transparent 0 38px, #aaa28c08 39px 40px, transparent 41px 66px),
+    radial-gradient(ellipse at 90% 0%, #9b302810, transparent 55%),
+    repeating-linear-gradient(0deg, transparent 0 79px, #e8e6e105 80px),
+    repeating-linear-gradient(90deg, transparent 0 79px, #e8e6e105 80px),
+    repeating-linear-gradient(0deg, #ffffff02 0 1px, transparent 1px 4px);
+}
+
+.page { max-width: 1600px; margin: 0 auto; padding: 28px 32px 48px; }
+.site-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-image { display: block; width: 64px; height: 64px; object-fit: contain; border: 1px solid var(--border); }
+.brand-copy { display: flex; flex-direction: column; gap: 6px; }
+.brand-name { font-size: 17px; font-weight: 800; letter-spacing: 0.09em; }
+.brand-caption, .account-label { color: var(--muted); font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+.header-account { display: flex; align-items: center; gap: 20px; min-width: 0; }
+.account-identity { display: flex; flex-direction: column; gap: 5px; text-align: right; min-width: 0; }
+.account-name { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+.logout-button { flex-shrink: 0; }
+
+main { width: 100%; max-width: 440px; margin: 24px auto 0; }
+.auth-layout { max-width: 488px; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 40px 24px; }
+.auth-layout .site-header { justify-content: center; }
+.auth-layout .brand { flex-direction: column; gap: 16px; text-align: center; }
+.auth-layout .brand-image { width: 136px; height: 136px; }
+.auth-layout .brand-name { font-size: 21px; }
+.auth-layout .brand-caption { font-size: 10px; }
+.auth-card { position: relative; padding: 30px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); box-shadow: 0 16px 48px #00000040; }
+.auth-card::before { content: ""; position: absolute; top: -1px; left: -1px; width: 42px; height: 3px; background: var(--accent); }
+h1 { margin: 0 0 12px; font-size: clamp(24px, 3vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: 0.025em; text-transform: uppercase; overflow-wrap: anywhere; }
+.auth-card h1 { font-size: 25px; }
+.intro { margin: 0 0 26px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.eyebrow { margin: 0 0 12px; color: #c69287; font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 10px; font-weight: 600; line-height: 1.6; letter-spacing: 0.16em; text-transform: uppercase; }
+fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+label { display: block; margin: 18px 0 8px; font-size: 12px; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase; }
+label:first-child { margin-top: 0; }
+input { width: 100%; min-height: 46px; padding: 12px; border: 1px solid var(--border); border-radius: 3px; background: #0b0b0b; color: var(--text); font: inherit; font-size: 16px; transition: border-color 150ms ease, box-shadow 150ms ease; }
+input:hover { border-color: #56514c; }
+input:focus-visible { outline: 1px solid var(--focus); outline-offset: 1px; border-color: var(--accent); box-shadow: 0 0 0 3px #9b302815; }
+input:-webkit-autofill { -webkit-text-fill-color: var(--text); box-shadow: 0 0 0 1000px #171717 inset; caret-color: var(--text); }
+.hint { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+button { min-height: 44px; padding: 11px 18px; border: 1px solid var(--accent); border-radius: 3px; background: var(--accent); color: var(--text); font: inherit; font-size: 13px; font-weight: 650; line-height: 1.5; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease; }
+button:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+button:disabled, fieldset:disabled { opacity: 0.65; }
+button:disabled, fieldset:disabled button { cursor: wait; }
+.primary-button { width: 100%; margin-top: 24px; letter-spacing: 0.12em; text-transform: uppercase; }
+.text-button { padding: 8px 6px; background: transparent; border-color: transparent; color: #d6a098; text-decoration: underline; text-underline-offset: 4px; }
+.text-button:hover:not(:disabled) { background: #9b302815; border-color: transparent; color: var(--text); }
+.switch-page { margin: 20px 0 0; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.message { padding: 12px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel-raised); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.error { color: #edb2aa; border: 1px solid #763b34; background: #241411; }
+.success { color: var(--text); border: 1px solid #78453e; background: #211614; }
+
+.schedule-layout .site-header { padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.schedule-main { max-width: none; margin-top: 36px; }
+.schedule-heading { margin-bottom: 8px; }
+.schedule-heading .intro { max-width: 600px; }
+.week-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0 24px; margin-bottom: 8px; border-top: 1px solid var(--border); }
+.week-range { margin: 0; font-size: 16px; font-weight: 650; line-height: 1.5; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; }
+.week-navigation { display: flex; flex-wrap: wrap; gap: 8px; }
+.secondary-button { border: 1px solid var(--border); background: var(--panel-raised); color: var(--text); }
+.secondary-button:hover:not(:disabled) { border-color: var(--accent); background: #241714; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.day-card { min-width: 0; padding: 16px 12px 4px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel); transition: border-color 150ms ease; }
+.day-card:hover { border-color: #50443f; }
+.day-card h3 { display: flex; flex-direction: column; gap: 7px; margin: 0 0 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.4; }
+.day-card h3 span { color: var(--muted); font-weight: 600; }
+.day-card h3 time { color: var(--text); font-size: 21px; font-weight: 750; letter-spacing: 0.03em; font-variant-numeric: tabular-nums; }
+.slot-list { list-style: none; margin: 0; padding: 0; }
+.slot-item + .slot-item { padding-top: 14px; border-top: 1px solid #242320; }
+.time-slot { width: 100%; padding: 12px 4px; border: 1px solid var(--border); background: var(--panel-raised); color: var(--text); text-align: center; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.time-slot:hover:not(:disabled) { background: #211715; border-color: var(--accent); }
+.time-slot[aria-pressed="true"] { border-color: var(--focus); box-shadow: 0 0 0 1px #9b302845; background: #251815; }
+.booked-slot { background: #251815; border-color: #8a443b; }
+.booking-badge { display: block; margin-top: 8px; color: #edccc5; font-size: 11px; font-weight: 650; }
+.slot-loading { display: block; margin-top: 6px; font-size: 11px; }
+.slot-action { width: 100%; margin-top: 8px; padding: 10px 6px; font-size: 12px; }
+.cancel-action { border-color: #89534a; background: #171211; color: #edb2aa; }
+.cancel-action:hover:not(:disabled) { border-color: var(--accent-hover); background: #39201b; }
+.slot-feedback { margin: 8px 0 12px; padding: 8px; border-radius: 3px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.participants { padding: 12px 2px 16px; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.participants-title { margin: 0 0 8px; color: var(--muted); font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.11em; text-transform: uppercase; }
+.participants-list { margin: 0; padding-left: 14px; color: #d3d0c9; }
+.participants-list li::marker { color: #b36b60; }
+.participants-list li + li { margin-top: 4px; }
+.participants-note { margin: 0; color: var(--muted); font-size: 11px; }
+.participants-error { margin-bottom: 24px; }
+.empty-day { margin: 0 0 16px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.empty-week { margin-top: 0; }
+
+@media (max-width: 1199px) {
+  .calendar-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 800px) {
+  .calendar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand-name { font-size: 14px; }
+  .header-account { gap: 12px; }
+}
+@media (max-width: 600px) {
+  .page { padding: 20px 16px 32px; }
+  .auth-layout { padding: 28px 16px; }
+  .auth-layout .brand-image { width: 104px; height: 104px; }
+  .auth-layout .brand-name { font-size: 18px; }
+  .auth-card { padding: 24px; }
+  .auth-card h1 { font-size: 23px; }
+  .site-header { flex-wrap: wrap; gap: 18px; }
+  .brand-image { width: 48px; height: 48px; }
+  .brand-name { font-size: 14px; }
+  .brand-caption { font-size: 9px; }
+  .header-account { width: 100%; justify-content: space-between; }
+  .account-identity { text-align: left; }
+  .schedule-main { margin-top: 28px; }
+  .schedule-heading h1 { font-size: 28px; }
+  .week-navigation { width: 100%; gap: 6px; }
+  .week-navigation button { flex: 1; padding: 10px 6px; font-size: 11px; }
+  .calendar-grid { grid-template-columns: 1fr; }
+  .day-card { padding: 18px 16px 4px; }
+  .day-card h3 { flex-direction: row; justify-content: space-between; align-items: center; }
+  .time-slot { padding: 14px; font-size: 14px; }
+  .participants { font-size: 13px; }
+  .participants-title { font-size: 10px; }
+  .participants-note { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+
